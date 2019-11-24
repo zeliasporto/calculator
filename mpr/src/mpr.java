@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-import static jdk.nashorn.internal.objects.NativeMath.round;
-
 public class mpr {
     public static void main(String[] args){
 
