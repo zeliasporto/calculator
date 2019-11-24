@@ -1,16 +1,20 @@
 import java.util.Scanner;
 
+import static jdk.nashorn.internal.objects.NativeMath.round;
+
 public class mpr {
     public static void main(String[] args){
 
         Scanner t = new Scanner(System.in);
 
         Pilha<Double> num = new Pilha<Double>();
+
         Pilha<String> op = new Pilha<String>();
 
         System.out.println("digite a expressão: ");
         String exp = t.nextLine();
         double v1=0, v2=0;
+        boolean pot=false;
 
         for (int i=0; i<exp.length(); i++){
             char sim = exp.charAt(i);
@@ -24,11 +28,17 @@ public class mpr {
                 } else {
                     while (op.top().equals("^")) {
                         op.pop();
-                        v1 = num.top();
-                        num.pop();
                         v2 = num.top();
                         num.pop();
+                        v1 = num.top();
+                        num.pop();
                         num.push(Math.pow(v1, v2));
+                        if(op.isEmpty()){
+                            break;
+                        }
+                    }
+                    if(exp.charAt(i+1)=='('){
+                        pot=true;
                     }
                     op.push(String.valueOf(sim));
                 }
@@ -39,27 +49,28 @@ public class mpr {
                     while (op.top().equals("*") || op.top().equals("/") || op.top().equals("^")) {
                         if (op.top().equals("*")) {
                             op.pop();
-                            v1 = num.top();
-                            num.pop();
                             v2 = num.top();
+                            num.pop();
+                            v1 = num.top();
                             num.pop();
                             num.push(v1 * v2);
-                        }
-                        if (op.top().equals("/")) {
+                        } else if (op.top().equals("/")) {
                             op.pop();
-                            v1 = num.top();
-                            num.pop();
                             v2 = num.top();
+                            num.pop();
+                            v1 = num.top();
                             num.pop();
                             num.push(v1 / v2);
-                        }
-                        if (op.top().equals("^")) {
+                        } else if (op.top().equals("^")) {
                             op.pop();
-                            v1 = num.top();
-                            num.pop();
                             v2 = num.top();
                             num.pop();
+                            v1 = num.top();
+                            num.pop();
                             num.push(Math.pow(v1, v2));
+                        }
+                        if(op.isEmpty()){
+                            break;
                         }
                     }
                     op.push(String.valueOf(sim));
@@ -71,43 +82,42 @@ public class mpr {
                     while (op.top().equals("*") || op.top().equals("/") || op.top().equals("^") || op.top().equals("+") || op.top().equals("-")) {
                         if (op.top().equals("*")) {
                             op.pop();
-                            v1 = num.top();
-                            num.pop();
                             v2 = num.top();
+                            num.pop();
+                            v1 = num.top();
                             num.pop();
                             num.push(v1 * v2);
-                        }
-                        if (op.top().equals("/")) {
+                        } else if (op.top().equals("/")) {
                             op.pop();
-                            v1 = num.top();
-                            num.pop();
                             v2 = num.top();
+                            num.pop();
+                            v1 = num.top();
                             num.pop();
                             num.push(v1 / v2);
-                        }
-                        if (op.top().equals("^")) {
+                        } else if (op.top().equals("^")) {
                             op.pop();
-                            v1 = num.top();
+                            v2 = num.top();
                             num.pop();
-                            v2 = num.pop();
+                            v1 = num.pop();
                             num.pop();
                             num.push(Math.pow(v1, v2));
-                        }
-                        if (op.top().equals("+")) {
+                        } else if (op.top().equals("+")) {
                             op.pop();
-                            v1 = num.top();
-                            num.pop();
                             v2 = num.top();
                             num.pop();
-                            num.push(v1 * v2);
-                        }
-                        if (op.top().equals("-")) {
-                            op.pop();
                             v1 = num.top();
                             num.pop();
+                            num.push(v1 + v2);
+                        } else if (op.top().equals("-")) {
+                            op.pop();
                             v2 = num.top();
+                            num.pop();
+                            v1 = num.top();
                             num.pop();
                             num.push(v1 - v2);
+                        }
+                        if(op.isEmpty() || op.tamanho==1){
+                            break;
                         }
                     }
                     op.push(String.valueOf(sim));
@@ -116,42 +126,54 @@ public class mpr {
                 while (!op.top().equals("(")) {
                     if (op.top().equals("^")) {
                         op.pop();
-                        v1 = num.top();
-                        num.pop();
                         v2 = num.top();
+                        num.pop();
+                        v1 = num.top();
                         num.pop();
                         num.push(Math.pow(v1, v2));
                     } else if (op.top().equals("*")) {
                         op.pop();
-                        v1 = num.top();
-                        num.pop();
                         v2 = num.top();
+                        num.pop();
+                        v1 = num.top();
                         num.pop();
                         num.push(v1*v2);
                     } else if (op.top().equals("/")) {
                         op.pop();
-                        v1 = num.top();
-                        num.pop();
                         v2 = num.top();
+                        num.pop();
+                        v1 = num.top();
                         num.pop();
                         num.push(v1 / v2);
                     } else if (op.top().equals("+")) {
                         op.pop();
-                        v1 = num.top();
-                        num.pop();
                         v2 = num.top();
+                        num.pop();
+                        v1 = num.top();
                         num.pop();
                         num.push(v1+v2);
                     } else if (op.top().equals("-")) {
                         op.pop();
-                        v1 = num.top();
-                        num.pop();
                         v2 = num.top();
+                        num.pop();
+                        v1 = num.top();
                         num.pop();
                         num.push(v1-v2);
                     }
+                    if(op.isEmpty()){
+                        break;
+                    }
                 }
                 op.pop();
+                if(pot==true){
+                    op.pop();
+                    v2 = num.top();
+                    num.pop();
+                    v1 = num.top();
+                    num.pop();
+                    num.push(Math.pow(v1, v2));
+                    pot=false;
+                }
             } else{
                 String vl="";
                 for(; i<exp.length(); i++){
@@ -166,41 +188,39 @@ public class mpr {
             }
         }
         while(!op.isEmpty()){
-            System.out.println("sdakdlçskdld");
             if (op.top().equals("*")) {
                 op.pop();
-                v1 = num.top();
-                num.pop();
                 v2 = num.top();
+                num.pop();
+                v1 = num.top();
                 num.pop();
                 num.push(v1*v2);
             } else if (op.top().equals("/")) {
                 op.pop();
-                v1 = num.top();
-                num.pop();
                 v2 = num.top();
+                num.pop();
+                v1 = num.top();
                 num.pop();
                 num.push(v1/v2);
             } else if (op.top().equals("^")) {
                 op.pop();
-                v1 = num.top();
-                num.pop();
                 v2 = num.top();
+                num.pop();
+                v1 = num.top();
                 num.pop();
                 num.push(Math.pow(v1, v2));
             } else if (op.top().equals("+")) {
-                System.out.println("skdjasdkljadlak");
                 op.pop();
-                v1 = num.top();
-                num.pop();
                 v2 = num.top();
+                num.pop();
+                v1 = num.top();
                 num.pop();
                 num.push(v1+v2);
             } else if (op.top().equals("-")) {
                 op.pop();
-                v1 = num.top();
-                num.pop();
                 v2 = num.top();
+                num.pop();
+                v1 = num.top();
                 num.pop();
                 num.push(v1-v2);
             }
